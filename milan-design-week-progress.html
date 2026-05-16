@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>米兰设计周 - 进度报告</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Slide 1 - Cover */
+        .slide-1 {
+            background: linear-gradient(135deg, rgba(20,30,60,1) 0%, rgba(80,40,120,1) 100%);
+        }
+
+        .slide-1 .content {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .slide-1 h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .slide-1 .subtitle {
+            font-size: 1.5rem;
+            color: #a78bfa;
+            margin-bottom: 2rem;
+        }
+
+        .slide-1 .divider {
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            margin: 0 auto 2rem;
+            border-radius: 2px;
+        }
+
+        .slide-1 .footer-text {
+            font-size: 1rem;
+            color: #94a3b8;
+        }
+
+        /* Slide 2 - Member 1 */
+        .slide-2 {
+            background: #f8fafc;
+        }
+
+        /* Slide 3 - Member 2 */
+        .slide-3 {
+            background: #ffffff;
+        }
+
+        /* Slide 4 - Member 3 */
+        .slide-4 {
+            background: #f8fafc;
+        }
+
+        /* Slide 5 - Member 4 */
+        .slide-5 {
+            background: #ffffff;
+        }
+
+        /* Member Slide Common Style */
+        .member-slide .content {
+            width: 90%;
+            max-width: 1200px;
+            padding: 2rem;
+        }
+
+        .member-header {
+            background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(124,58,237,0.2);
+        }
+
+        .member-header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-header .role {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .member-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .member-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .member-section h3 {
+            color: #7c3aed;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .member-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .member-section li {
+            padding: 0.6rem 0;
+            color: #475569;
+            line-height: 1.6;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .member-section li:before {
+            content: "•";
+            color: #8b5cf6;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7c3aed;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Slide 6 - Next Steps */
+        .slide-6 {
+            background: linear-gradient(135deg, rgba(20,30,60,1) 0%, rgba(80,40,120,1) 100%);
+        }
+
+        .slide-6 .content {
+            width: 90%;
+            max-width: 1200px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .slide-6 h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .next-step-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .next-step-card h4 {
+            color: #a78bfa;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .next-step-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .next-step-card li {
+            color: #e2e8f0;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .conclusion {
+            background: rgba(139,92,246,0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .conclusion p {
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-indicators {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 100;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #8b5cf6;
+            transform: scale(1.3);
+        }
+
+        .indicator:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide-1 h1 {
+                font-size: 2.2rem;
+            }
+            .slide-1 .subtitle {
+                font-size: 1.1rem;
+            }
+            .member-content {
+                grid-template-columns: 1fr;
+            }
+            .next-steps-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Cover -->
+        <div class="slide slide-1 active">
+            <div class="content">
+                <h1>米兰设计周 - 进度报告</h1>
+                <p class="subtitle">Milan Design Week Progress Report</p>
+                <div class="divider"></div>
+                <p class="footer-text">黑色~米兰设计周XX | 团队协作进度汇总</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Member 1 -->
+        <div class="slide slide-2 member-slide">
+            <div class="content">
+                <div class="member-header">
+                    <h2>成员一</h2>
+                    <p class="role">工作内容与进展</p>
+                </div>
+                <div class="member-content">
+                    <div class="member-section">
+                        <h3>📋 已完成工作</h3>
+                        <div class="image-placeholder">📷 此处插入相关图片</div>
+                        <ul>
+                            <li>任务一描述</li>
+                            <li>任务二描述</li>
+                            <li>任务三描述</li>
+                        </ul>
+                    </div>
+                    <div class="member-section">
+                        <h3>🎯 进行中工作</h3>
+                        <ul>
+                            <li>进行中的任务一</li>
+                            <li>进行中的任务二</li>
+                            <li>下一步计划</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Member 2 -->
+        <div class="slide slide-3 member-slide">
+            <div class="content">
+                <div class="member-header" style="background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);">
+                    <h2>成员二</h2>
+                    <p class="role">工作内容与进展</p>
+                </div>
+                <div class="member-content">
+                    <div class="member-section">
+                        <h3 style="color: #ec4899;">📋 已完成工作</h3>
+                        <div class="image-placeholder" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); color: #be185d;">📷 此处插入相关图片</div>
+                        <ul>
+                            <li>任务一描述</li>
+                            <li>任务二描述</li>
+                            <li>任务三描述</li>
+                        </ul>
+                    </div>
+                    <div class="member-section">
+                        <h3 style="color: #ec4899;">🎯 进行中工作</h3>
+                        <ul>
+                            <li>进行中的任务一</li>
+                            <li>进行中的任务二</li>
+                            <li>下一步计划</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Member 3 -->
+        <div class="slide slide-4 member-slide">
+            <div class="content">
+                <div class="member-header" style="background: linear-gradient(135deg, #059669 0%, #065f46 100%);">
+                    <h2>成员三</h2>
+                    <p class="role">工作内容与进展</p>
+                </div>
+                <div class="member-content">
+                    <div class="member-section">
+                        <h3 style="color: #059669;">📋 已完成工作</h3>
+                        <div class="image-placeholder" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #059669;">📷 此处插入相关图片</div>
+                        <ul>
+                            <li>任务一描述</li>
+                            <li>任务二描述</li>
+                            <li>任务三描述</li>
+                        </ul>
+                    </div>
+                    <div class="member-section">
+                        <h3 style="color: #059669;">🎯 进行中工作</h3>
+                        <ul>
+                            <li>进行中的任务一</li>
+                            <li>进行中的任务二</li>
+                            <li>下一步计划</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Member 4 -->
+        <div class="slide slide-5 member-slide">
+            <div class="content">
+                <div class="member-header" style="background: linear-gradient(135deg, #d97706 0%, #92400e 100%);">
+                    <h2>成员四</h2>
+                    <p class="role">工作内容与进展</p>
+                </div>
+                <div class="member-content">
+                    <div class="member-section">
+                        <h3 style="color: #d97706;">📋 已完成工作</h3>
+                        <div class="image-placeholder" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #d97706;">📷 此处插入相关图片</div>
+                        <ul>
+                            <li>任务一描述</li>
+                            <li>任务二描述</li>
+                            <li>任务三描述</li>
+                        </ul>
+                    </div>
+                    <div class="member-section">
+                        <h3 style="color: #d97706;">🎯 进行中工作</h3>
+                        <ul>
+                            <li>进行中的任务一</li>
+                            <li>进行中的任务二</li>
+                            <li>下一步计划</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Next Steps -->
+        <div class="slide slide-6">
+            <div class="content">
+                <h2>后续安排与工作分配</h2>
+                <div class="next-steps-grid">
+                    <div class="next-step-card">
+                        <h4>成员一</h4>
+                        <ul>
+                            <li>待完成任务1</li>
+                            <li>待完成任务2</li>
+                            <li>时间节点</li>
+                        </ul>
+                    </div>
+                    <div class="next-step-card">
+                        <h4>成员二</h4>
+                        <ul>
+                            <li>待完成任务1</li>
+                            <li>待完成任务2</li>
+                            <li>时间节点</li>
+                        </ul>
+                    </div>
+                    <div class="next-step-card">
+                        <h4>成员三</h4>
+                        <ul>
+                            <li>待完成任务1</li>
+                            <li>待完成任务2</li>
+                            <li>时间节点</li>
+                        </ul>
+                    </div>
+                    <div class="next-step-card">
+                        <h4>成员四</h4>
+                        <ul>
+                            <li>待完成任务1</li>
+                            <li>待完成任务2</li>
+                            <li>时间节点</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="conclusion">
+                    <p>让我们携手共进，圆满完成米兰设计周的各项准备工作！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Indicators -->
+    <div class="slide-indicators">
+        <div class="indicator active" data-slide="0"></div>
+        <div class="indicator" data-slide="1"></div>
+        <div class="indicator" data-slide="2"></div>
+        <div class="indicator" data-slide="3"></div>
+        <div class="indicator" data-slide="4"></div>
+        <div class="indicator" data-slide="5"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" disabled>上一页</button>
+        <button class="nav-btn" id="nextBtn">下一页</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slides.length - 1;
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showSlide(index));
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+</body>
+</html>

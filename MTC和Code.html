@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTC和Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.03em;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .slide-1 {
+            background: linear-gradient(135deg, #1e3c72 0%, #38618c 50%, #1e3c72 100%);
+            position: relative;
+        }
+
+        .slide-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80') center/cover no-repeat;
+            opacity: 0.2;
+        }
+
+        .slide-1 .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .slide-1 h1 {
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-1 .subtitle {
+            font-size: 2rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .slide-1 .divider {
+            width: 180px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            margin: 0 auto 2rem;
+            border-radius: 2px;
+        }
+
+        .slide-2 {
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .slide-2 .content {
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .slide-2 .text-content {
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .slide-2 h2 {
+            color: #1e3c72;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-2 p {
+            color: #475569;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-2 .highlight-box {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .slide-2 .image-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: fadeInRight 1s ease-out;
+        }
+
+        .slide-2 .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-3 {
+            background: linear-gradient(135deg, #1e3c72 0%, #0f172a 100%);
+        }
+
+        .slide-3 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-3 h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mode-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .mode-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .mode-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .mode-card .mode-image {
+            width: 200px;
+            height: 150px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .mode-card .mode-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mode-card h3 {
+            color: #60a5fa;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-card .full-name {
+            color: #a78bfa;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .mode-card p {
+            color: #cbd5e1;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .slide-4 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide-4 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-4 h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 3rem;
+        }
+
+        .slide-4 .subtitle-text {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-item:nth-child(2) { animation-delay: 0.1s; }
+        .feature-item:nth-child(3) { animation-delay: 0.2s; }
+        .feature-item:nth-child(4) { animation-delay: 0.3s; }
+
+        .feature-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .feature-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .slide-5 {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .slide-5 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-5 h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .use-case-card:nth-child(2) { animation-delay: 0.15s; }
+        .use-case-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .use-case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .use-case-card .image-area {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .use-case-card .image-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .use-case-card:hover .image-area img {
+            transform: scale(1.1);
+        }
+
+        .use-case-card .card-content {
+            padding: 1.5rem;
+        }
+
+        .use-case-card h4 {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .slide-6 {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3c72 100%);
+        }
+
+        .slide-6 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-6 h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #34d399, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-6 .subtitle-text {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+        }
+
+        .code-features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .code-feature-item {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .code-feature-item:nth-child(2) { animation-delay: 0.1s; }
+        .code-feature-item:nth-child(3) { animation-delay: 0.2s; }
+        .code-feature-item:nth-child(4) { animation-delay: 0.3s; }
+
+        .code-feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(52, 211, 153, 0.2);
+            box-shadow: 0 10px 30px rgba(52, 211, 153, 0.2);
+        }
+
+        .code-feature-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .code-feature-item h4 {
+            color: #34d399;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-feature-item p {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .slide-7 {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .slide-7 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-7 h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+
+        .code-use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .code-use-case-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .code-use-case-card:nth-child(2) { animation-delay: 0.15s; }
+        .code-use-case-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .code-use-case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .code-use-case-card .image-area {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .code-use-case-card .image-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .code-use-case-card:hover .image-area img {
+            transform: scale(1.1);
+        }
+
+        .code-use-case-card .card-content {
+            padding: 1.5rem;
+        }
+
+        .code-use-case-card h4 {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-use-case-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .slide-8 {
+            background: linear-gradient(135deg, #1e3c72 0%, #0f172a 100%);
+        }
+
+        .slide-8 .content {
+            width: 95%;
+            max-width: 1400px;
+        }
+
+        .slide-8 h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .comparison-table {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2));
+        }
+
+        .comparison-table th {
+            padding: 1.5rem;
+            color: #fbbf24;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            padding: 1.2rem 1.5rem;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .highlight-text {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .green-text {
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        .slide-9 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+
+        .slide-9 .content {
+            width: 90%;
+            max-width: 1400px;
+        }
+
+        .slide-9 h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+
+        .user-segmentation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .user-segment {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .user-segment:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .user-segment h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .user-list {
+            list-style: none;
+        }
+
+        .user-list li {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-list li:last-child {
+            border-bottom: none;
+        }
+
+        .user-list li .emoji {
+            font-size: 1.5rem;
+        }
+
+        .slide-10 {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .slide-10 .content {
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .slide-10 h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+        }
+
+        .choice-cards {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .choice-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .choice-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .choice-card h3 {
+            color: #1e3c72;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .choice-card ul {
+            list-style: none;
+        }
+
+        .choice-card li {
+            color: #475569;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .choice-card li::before {
+            content: '✓';
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        .or-divider {
+            font-size: 2rem;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .slide-11 {
+            background: linear-gradient(135deg, #1e3c72 0%, #0f172a 100%);
+            position: relative;
+        }
+
+        .slide-11::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&q=80') center/cover no-repeat;
+            opacity: 0.15;
+        }
+
+        .slide-11 .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .slide-11 .thanks-page {
+            text-align: center;
+        }
+
+        .slide-11 .thanks-main {
+            font-size: 4rem;
+            color: #ffffff;
+            font-weight: 900;
+            margin-bottom: 2rem;
+        }
+
+        .slide-11 .thanks-sub {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        .slide-11 .divider {
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            margin: 0 auto 2rem;
+            border-radius: 2px;
+        }
+
+        .slide-11 .thanks-contact {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .slide-11 .thanks-date {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-indicators {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 100;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #3b82f6;
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .indicator:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="presentation">
+        <!-- 第1页 -->
+        <div class="slide slide-1 active">
+            <div class="content">
+                <h1>MTC模式 vs Code模式</h1>
+                <p class="subtitle">汇报人 cxk</p>
+                <div class="divider"></div>
+                <p style="color: #94a3b8; font-size: 1.1rem;">More Than Coding - 不止于编程的全场景AI助手</p>
+            </div>
+        </div>
+
+        <!-- 第2页 -->
+        <div class="slide slide-2">
+            <div class="content">
+                <div class="text-content">
+                    <h2>什么是 Trae Solo？</h2>
+                    <p>Trae Solo 是字节跳动推出的AI原生IDE产品，提供Code和MTC两种核心模式，通过更轻量、更直观的交互范式，为用户提供沉浸式且高效的AI驱动开发体验。</p>
+                    <div class="highlight-box">
+                        <strong>核心定位：</strong>覆盖专业开发到日常办公的全场景AI助手
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80" alt="Trae Solo IDE">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3页 -->
+        <div class="slide slide-3">
+            <div class="content">
+                <h2>两种核心模式</h2>
+                <div class="mode-cards">
+                    <div class="mode-card">
+                        <div class="mode-image">
+                            <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb06b?w=400&q=80" alt="MTC Mode">
+                        </div>
+                        <h3>MTC 模式</h3>
+                        <p class="full-name">More Than Coding</p>
+                        <p>面向非开发岗位用户，处理文档、数据、演示稿等泛开发场景。适合产品经理、数据分析师、运营人员等。</p>
+                    </div>
+                    <div class="mode-card">
+                        <div class="mode-image">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&q=80" alt="Code Mode">
+                        </div>
+                        <h3>Code 模式</h3>
+                        <p class="full-name">Professional Coding</p>
+                        <p>面向专业开发者，继承SOLO Agent核心能力，自主分析项目架构、编写复杂代码、调试纠错等。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4页 -->
+        <div class="slide slide-4">
+            <div class="content">
+                <h2>MTC 模式 - 核心能力</h2>
+                <p class="subtitle-text">More Than Coding，让非技术人员也能高效工作</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="icon">📝</div>
+                        <h4>文档处理</h4>
+                        <p>PRD文档撰写、需求整理、报告生成</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📊</div>
+                        <h4>数据分析</h4>
+                        <p>Excel表格处理、数据清洗、统计分析</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📽️</div>
+                        <h4>PPT制作</h4>
+                        <p>汇报演示、方案展示、结构化呈现</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🔍</div>
+                        <h4>调研报告</h4>
+                        <p>市场调研、竞品分析，信息整合</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5页 -->
+        <div class="slide slide-5">
+            <div class="content">
+                <h2>MTC 模式 - 典型场景</h2>
+                <div class="use-cases-grid">
+                    <div class="use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80" alt="PRD生成">
+                        </div>
+                        <div class="card-content">
+                            <h4>PRD文档生成</h4>
+                            <p>产品经理快速生成产品需求文档，AI辅助整理思路和结构</p>
+                        </div>
+                    </div>
+                    <div class="use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="数据分析">
+                        </div>
+                        <div class="card-content">
+                            <h4>数据分析汇报</h4>
+                            <p>面对大量Excel数据，AI自动分析并生成可视化图表和结论</p>
+                        </div>
+                    </div>
+                    <div class="use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80" alt="PPT制作">
+                        </div>
+                        <div class="card-content">
+                            <h4>PPT制作</h4>
+                            <p>根据内容自动生成精美PPT，支持多种风格和布局</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6页 -->
+        <div class="slide slide-6">
+            <div class="content">
+                <h2>Code 模式 - 核心能力</h2>
+                <p class="subtitle-text">面向专业开发者，打造高效编程体验</p>
+                <div class="code-features-grid">
+                    <div class="code-feature-item">
+                        <div class="icon">🏗️</div>
+                        <h4>架构设计</h4>
+                        <p>自主分析项目架构，提供优化建议</p>
+                    </div>
+                    <div class="code-feature-item">
+                        <div class="icon">⌨️</div>
+                        <h4>代码生成</h4>
+                        <p>多语言代码生成，支持复杂业务逻辑</p>
+                    </div>
+                    <div class="code-feature-item">
+                        <div class="icon">🔧</div>
+                        <h4>调试纠错</h4>
+                        <p>自动定位问题，提供修复方案</p>
+                    </div>
+                    <div class="code-feature-item">
+                        <div class="icon">⚡</div>
+                        <h4>多任务并行</h4>
+                        <p>支持多个任务同时处理，提升效率</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7页 -->
+        <div class="slide slide-7">
+            <div class="content">
+                <h2>Code 模式 - 典型场景</h2>
+                <div class="code-use-cases-grid">
+                    <div class="code-use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" alt="全栈开发">
+                        </div>
+                        <div class="card-content">
+                            <h4>全栈开发</h4>
+                            <p>从前端到后端，从数据库到API，一站式开发体验</p>
+                        </div>
+                    </div>
+                    <div class="code-use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80" alt="调试排错">
+                        </div>
+                        <div class="card-content">
+                            <h4>调试排错</h4>
+                            <p>智能定位bug，分析堆栈信息，快速修复问题</p>
+                        </div>
+                    </div>
+                    <div class="code-use-case-card">
+                        <div class="image-area">
+                            <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&q=80" alt="项目部署">
+                        </div>
+                        <div class="card-content">
+                            <h4>项目部署</h4>
+                            <p>自动化构建、测试和部署，一键发布上线</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第8页 -->
+        <div class="slide slide-8">
+            <div class="content">
+                <h2>核心对比</h2>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>对比维度</th>
+                                <th>MTC 模式</th>
+                                <th>Code 模式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>定位</strong></td>
+                                <td class="highlight-text">办公/文档助手</td>
+                                <td class="green-text">程序员助手</td>
+                            </tr>
+                            <tr>
+                                <td><strong>目标用户</strong></td>
+                                <td>产品经理、数据分析师、运营等</td>
+                                <td>专业开发者、程序员</td>
+                            </tr>
+                            <tr>
+                                <td><strong>权限</strong></td>
+                                <td>沙箱环境（仅授权文件夹）</td>
+                                <td>本地全权限（可运行命令）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>核心能力</strong></td>
+                                <td>文档、PPT、数据、方案</td>
+                                <td>代码、调试、架构、部署</td>
+                            </tr>
+                            <tr>
+                                <td><strong>终端支持</strong></td>
+                                <td>桌面端 + 网页端 + 手机端</td>
+                                <td>桌面端 + 网页端</td>
+                            </tr>
+                            <tr>
+                                <td><strong>交互方式</strong></td>
+                                <td>动嘴提需求，AI执行</td>
+                                <td>Agent主导，可深度定制</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第9页 -->
+        <div class="slide slide-9">
+            <div class="content">
+                <h2>适用人群</h2>
+                <div class="user-segmentation">
+                    <div class="user-segment">
+                        <h3>🎯 MTC 模式适用</h3>
+                        <ul class="user-list">
+                            <li><span class="emoji">📋</span> 产品经理 - 需求文档、PRD、用户故事</li>
+                            <li><span class="emoji">📈</span> 数据分析师 - 数据处理、可视化、报告</li>
+                            <li><span class="emoji">📣</span> 运营人员 - 活动方案、调研报告、复盘</li>
+                            <li><span class="emoji">🎨</span> 设计师 - 设计说明、提案文档</li>
+                            <li><span class="emoji">📚</span> 行政人员 - 工作报告、会议纪要</li>
+                        </ul>
+                    </div>
+                    <div class="user-segment">
+                        <h3>💻 Code 模式适用</h3>
+                        <ul class="user-list">
+                            <li><span class="emoji">🔧</span> 前端开发者 - React/Vue/Angular项目</li>
+                            <li><span class="emoji">⚙️</span> 后端开发者 - API、数据库、服务端</li>
+                            <li><span class="emoji">🧪</span> 全栈工程师 - 端到端开发</li>
+                            <li><span class="emoji">🔍</span> 测试工程师 - 自动化测试、调试</li>
+                            <li><span class="emoji">🚀</span> DevOps工程师 - 部署、CI/CD</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第10页 -->
+        <div class="slide slide-10">
+            <div class="content">
+                <h2>如何选择？</h2>
+                <div class="choice-cards">
+                    <div class="choice-card">
+                        <h3>选择 MTC 模式</h3>
+                        <ul>
+                            <li>不需要写代码的工作</li>
+                            <li>需要处理大量文档和数据</li>
+                            <li>想要快速生成汇报材料</li>
+                            <li>非技术背景的办公人员</li>
+                            <li>需要在手机上移动办公</li>
+                        </ul>
+                    </div>
+                    <div class="or-divider">OR</div>
+                    <div class="choice-card">
+                        <h3>选择 Code 模式</h3>
+                        <ul>
+                            <li>需要编写和调试代码</li>
+                            <li>进行项目架构设计</li>
+                            <li>需要深度定制开发流程</li>
+                            <li>专业的软件开发工作</li>
+                            <li>需要访问本地文件和终端</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第11页 - 感谢页 -->
+        <div class="slide slide-11">
+            <div class="content">
+                <div class="thanks-page">
+                    <p class="thanks-main">感谢您的聆听！</p>
+                    <p class="thanks-sub">如有任何疑问，欢迎交流探讨</p>
+                    <div class="divider"></div>
+                    <p class="thanks-contact">汇报人：cxk</p>
+                    <p class="thanks-date">2026年5月</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面指示器 -->
+    <div class="slide-indicators" id="indicators">
+        <div class="indicator active" data-slide="0"></div>
+        <div class="indicator" data-slide="1"></div>
+        <div class="indicator" data-slide="2"></div>
+        <div class="indicator" data-slide="3"></div>
+        <div class="indicator" data-slide="4"></div>
+        <div class="indicator" data-slide="5"></div>
+        <div class="indicator" data-slide="6"></div>
+        <div class="indicator" data-slide="7"></div>
+        <div class="indicator" data-slide="8"></div>
+        <div class="indicator" data-slide="9"></div>
+        <div class="indicator" data-slide="10"></div>
+    </div>
+
+    <!-- 导航按钮 -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" disabled>上一页</button>
+        <button class="nav-btn" id="nextBtn">下一页</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateProgress() {
+            const progress = (currentSlide + 1) / slides.length * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function showSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slides.length - 1;
+            currentSlide = index;
+            updateProgress();
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showSlide(index));
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        updateProgress();
+    </script>
+</body>
+</html>
