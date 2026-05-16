@@ -11,24 +11,8 @@ import MemoPage from './pages/MemoPage';
 import AdminReviewPage from './pages/AdminReviewPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { useState, useEffect } from 'react';
 
 function App() {
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    setUser(null);
-  };
-
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const token = localStorage.getItem('authToken');
     return token ? <>{children}</> : <Navigate to="/login" replace />;

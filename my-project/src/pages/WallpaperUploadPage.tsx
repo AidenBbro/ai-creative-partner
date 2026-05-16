@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Upload, ArrowLeft, Image, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 export default function WallpaperUploadPage() {
   const [title, setTitle] = useState('');
